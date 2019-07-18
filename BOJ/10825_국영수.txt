@@ -14,7 +14,7 @@
 
  풀이
 StudentInfo 클래스에 데이터를 저장하고 우선순위 큐로 정렬했다.
-*/
+*/ 
 
 import java.io.BufferedReader;
 import java.io.IOException;
