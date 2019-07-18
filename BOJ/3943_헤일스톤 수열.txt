@@ -1,0 +1,28 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+	static int max;
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.parseInt(br.readLine());
+		
+		while(T-- > 0){
+			int n = Integer.parseInt(br.readLine());
+			max = n;
+			System.out.println(maxHailStone(n));
+			
+		}
+	}
+	
+	private static int maxHailStone(int n){
+		if(max <= n)
+			max = n;
+		
+		if(n <= 1)
+			return max;
+		
+		return n % 2 != 0 ? maxHailStone(3*n+1) : maxHailStone(n/2); 
+	}
+}
