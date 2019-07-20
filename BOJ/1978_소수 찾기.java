@@ -9,7 +9,8 @@
 주어진 수들 중 소수의 개수를 출력한다.
 
 [풀이]
-1~1000 까지의 수 중에서 소수를 판별하고 소수를 ArrayList에 오름차순으로 넣는다. Collections.binarySearch로 찾으려는 수가 소수이면 cnt를 증가시키고 cnt를 출력한다.
+1~1000 까지의 수 중에서 소수를 판별하고 소수를 ArrayList에 오름차순으로 넣는다.
+Collections.binarySearch로 찾으려는 수가 소수이면 cnt를 증가시키고 cnt를 출력한다.
 */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
