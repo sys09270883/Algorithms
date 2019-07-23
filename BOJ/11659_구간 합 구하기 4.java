@@ -20,6 +20,7 @@ https://www.acmicpc.net/problem/11659
    https://wondy1128.tistory.com/150
    완전이진트리로 구현, 구간에 대한 정보를 알 수 있으며 합의 시간복잡도는 O(MN)이다.
 */
+// 1) 구간합 알고리즘
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class Main {
 	}
 }
 
+// 2) 세그먼트 트리
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
