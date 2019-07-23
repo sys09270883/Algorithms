@@ -1,2 +1,2 @@
-# BOJ-Algorithms
-백준 알고리즘
+# Algorithms
+자료구조 및 알고리즘
