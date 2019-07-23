@@ -1,3 +1,25 @@
+/*
+https://www.acmicpc.net/problem/11659
+
+[문제]
+수 N개가 주어졌을 때, i번째 수부터 j번째 수까지 합을 구하는 프로그램을 작성하시오.
+
+[입력]
+첫째 줄에 수의 개수 N (1 ≤ N ≤ 100,000), 합을 구해야 하는 횟수 M (1 ≤ M ≤ 100,000)이 주어진다. 둘째 줄에는 N개의 수가 주어진다. 수는 1,000보다 작거나 같은 자연수이다. 셋째 줄부터 M개의 줄에는 합을 구해야 하는 구간 i와 j가 주어진다.
+
+[출력]
+총 M개의 줄에 입력으로 주어진 i번째 수부터 j번째 수까지 합을 출력한다.
+
+[풀이]
+1) 구간합 알고리즘(sum[])
+   sum[0] = arr[0], sum[n] = sum[n-1] + arr[n]을 만족하는 sum배열을 만든다.
+   (a, b) 구간의 합은 sum[b] - sum[a-1]이다.
+
+2) 세그먼트 트리(구간 트리)
+   https://www.crocus.co.kr/648
+   https://wondy1128.tistory.com/150
+   완전이진트리로 구현, 구간에 대한 정보를 알 수 있으며 합의 시간복잡도는 O(MN)이다.
+*/
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
