@@ -65,7 +65,7 @@ public class Main {
 			return a;
 		
 		a = matrixPow(a, b/2);
-		a =	matrixMul(a, a);
+		a = matrixMul(a, a);
 
 		if(b % 2 == 1){
 			long[][] tmp = {{1, 1}, {1, 0}};
