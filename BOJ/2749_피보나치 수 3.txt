@@ -1,0 +1,50 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Main {
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		long N = Long.parseLong(br.readLine());
+		long[][] fibo = {{1, 1}, {1, 0}};
+		fibo = matrixPow(fibo, N);
+		
+		bw.write(Long.toString(fibo[0][1]));
+		bw.close();
+		br.close();	
+	}
+
+	private static long[][] matrixMul(long[][] a, long[][] b){
+		long c[][] = new long[2][2];
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				for (int k = 0; k < 2; k++) {
+					c[i][j] += a[i][k] * b[k][j];
+				}
+				c[i][j] %= 1000000;
+			}
+		}
+
+		return c;
+	}
+
+	private static long[][] matrixPow(long[][] a, long b){
+		if(b <= 1)
+			return a;
+		
+		a = matrixPow(a, b/2);
+		a =	matrixMul(a, a);
+
+		if(b % 2 == 1){
+			long[][] tmp = {{1, 1}, {1, 0}};
+			a = matrixMul(a, tmp);
+		}
+
+		return a;
+	}
+}
