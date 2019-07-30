@@ -41,6 +41,7 @@ import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Main {
 	static int N;
@@ -66,8 +67,10 @@ public class Main {
 		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if(map[i][j] == 1)
+				if(map[i][j] == 1) {
 					BFS(i, j);
+// 					DFS(i, j);
+				}
 			}
 		}
 		
@@ -104,6 +107,31 @@ public class Main {
 				queue.add(new Node(nx, ny));
 			}
 		} 
+		pq.add(cnt);
+	}
+	
+	private static void DFS(int row, int column) {
+		Stack<Node> stack = new Stack<Node>();
+		stack.add(new Node(row, column));
+		
+		int cnt = 0;
+		while(!stack.isEmpty()) {
+			Node tmp = stack.pop();
+			for (int i = 0; i < 4; i++) {
+				int nx = tmp.row + dx[i];
+				int ny = tmp.column + dy[i];
+				
+				if(nx < 0 || ny < 0 || nx >= N || ny >= N)
+					continue;
+				
+				if(map[nx][ny] == 0)
+					continue;
+				
+				cnt++;
+				map[nx][ny] = 0;
+				stack.add(new Node(nx, ny));
+			}
+		}
 		pq.add(cnt);
 	}
 }
