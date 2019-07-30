@@ -31,6 +31,7 @@ ex) 입력이
     int tmp = pq.poll();
     sb.append(tmp == 0 ? 1 : tmp).append("\n");
     
++ DFS로도 풀 수 있다.
 */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
