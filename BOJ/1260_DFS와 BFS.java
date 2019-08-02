@@ -46,80 +46,79 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
+	final static int MAX = 1001;
+	static ArrayList<ArrayList<Integer>> adjList;
+	static boolean[] visited;
+	static StringBuilder sb;
+	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		StringBuilder sb = new StringBuilder();
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		int nV = Integer.parseInt(st.nextToken());
-		int nE = Integer.parseInt(st.nextToken());
-		int V = Integer.parseInt(st.nextToken());
+		int N, M, V;
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		V = Integer.parseInt(st.nextToken());
 		
-		ArrayList<ArrayList<Integer>> adjList = new ArrayList<ArrayList<Integer>>(nV+1);
-		boolean[] visited = new boolean[nV+1];
-
-		for (int i = 0; i < nV+1; i++) {
+		sb = new StringBuilder();
+		adjList = new ArrayList<ArrayList<Integer>>(MAX);
+		for (int i = 0; i < N+1; i++) {
 			adjList.add(new ArrayList<Integer>());
 		}
+		visited = new boolean[MAX];
 
-		for (int i = 0; i < nE; i++) {
-			st = new StringTokenizer(br.readLine(), " ");
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-
-			adjList.get(a).add(b);
-			adjList.get(b).add(a);
+		for (int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+			
+			int from = Integer.parseInt(st.nextToken());
+			int to = Integer.parseInt(st.nextToken());
+			
+			adjList.get(from).add(to);
+			adjList.get(to).add(from);
 		}
 		
-		for (int j = 0; j < adjList.size(); j++) {
-			for (int i : adjList.get(j)) {
-				Collections.sort(adjList.get(i));
-			}
-		}
+		for (int i = 1; i <= N; i++) 
+			Collections.sort(adjList.get(i));
 		
-		DFS(V, visited, adjList, sb);
+		DFS(V);
 		Arrays.fill(visited, false);
-		sb.append('\n');
-		BFS(V, visited, adjList, sb);
-
+		sb.append("\n");
+		BFS(V);
+		
 		bw.write(sb.toString().trim());
 		bw.close();
-		br.close();	
+		br.close();
 	}
-
-	private static void DFS(int root, boolean[] visited, ArrayList<ArrayList<Integer>> adjList, StringBuilder sb){
-		visited[root] = true;
-		sb.append(root).append(" ");
-
-		for (int i : adjList.get(root)) {
-			if(visited[i] == false)
-				DFS(i, visited, adjList, sb);
+	
+	private static void DFS(int idx) {
+		visited[idx] = true;
+		sb.append(idx).append(" ");
+		
+		for (int i : adjList.get(idx)) {
+			if(!visited[i])
+				DFS(i);
 		}
 	}
-
-	private static void BFS(int root, boolean[] visited, ArrayList<ArrayList<Integer>> adjList, StringBuilder sb){
+	
+	private static void BFS(int idx) {
 		Queue<Integer> queue = new LinkedList<Integer>();
-		visited[root] = true;
-		queue.add(root);
-
-		while(!queue.isEmpty()){
+		visited[idx] = true;
+		queue.add(idx);
+		
+		while(!queue.isEmpty()) {
 			int tmp = queue.poll();
 			sb.append(tmp).append(" ");
-
-			Iterator<Integer> i = adjList.get(tmp).listIterator();
-			while(i.hasNext()) {
-				int n = i.next();
-
-				if(!visited[n]){
-					visited[n] = true;
-					queue.add(n);
+			
+			for(int i : adjList.get(tmp)) {
+				if(!visited[i]) {
+					queue.add(i);
+					visited[i] = true;
 				}
 			}
 		}

@@ -14,8 +14,6 @@ https://www.acmicpc.net/problem/1697
 [풀이]
 N이 K일 때 까지 +1, -1, *2 연산을 반복한다.
 BFS로 맵을 갱신하면 최단거리이므로 map[K]를 갱신할 때까지 실행하고 갱신하면 반복문을 탈출한다.
-+ while(!queue.isEmpty() && tmp != K) -> tmp != K가 꼭 있어야 함.
-
 
 */
 import java.io.BufferedReader;
@@ -40,7 +38,7 @@ public class Main {
 		map = new int[100001];
 		BFS();
 		
-		bw.write(String.valueOf(map[K]));
+		bw.write(String.valueOf((map[K]) - 1));
 		bw.close();
 		br.close();
 	}
@@ -48,11 +46,11 @@ public class Main {
 	private static void BFS() {
 		Queue<Integer> queue = new LinkedList<Integer>();
 		queue.add(N);
-		
+		map[N] = 1;
 		int[] func = new int[3];
 		int tmp = Integer.MIN_VALUE;
 		
-		while(!queue.isEmpty() && tmp != K) {
+		while(!queue.isEmpty()) {
 			tmp = queue.poll();
 			
 			func[0] = tmp + 1;
