@@ -54,7 +54,7 @@ public class Main {
 		br.close();
 	}
 	
-	private static void func() throws IOException{
+	private static void func() {
 		int idx = 10;
 		
 		while(idx <= N) {
