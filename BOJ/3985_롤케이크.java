@@ -29,10 +29,14 @@ https://www.acmicpc.net/problem/3985
 가장 많은 조각을 받도록 예상되는 방청객이 여러 명인 경우에는 번호가 작은 사람을 출력한다.
 
 [풀이]
-먼저 뽑는 방청객에 우선권을 주기 위하여 케이크에 번호를 적는 방향을 역순(마지막 방청객에서 처음 방청객 순)으로 했다. 
-이렇게 하니 전체 데이터에 대해서 반복을 2번하기 때문에 좋지 않은 알고리즘인 것 같다. 
--> 한 번의 반복문으로 처리할 수 있도록 수정하기
+1.
+먼저 뽑는 방청객에 우선권을 주기 위하여 케이크에 번호를 적는 방향을 역순(마지막 방청객에서 처음 방청객 순)으로 했다.  
+-> 객체를 만들고, 그 안에서 스택을 사용할 필요가 없는 듯
+
+2.
+케이크에 번호를 넣으면서 케이크를 많이 받는다고 기대한 사람을 체크하고, 입력이 끝난 후 최빈값을 체크한다.
 */
+// 1
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -107,3 +111,65 @@ class Audience {
 		}
 	}
 }
+
+// 2
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		StringTokenizer st = null;
+		StringBuilder sb = new StringBuilder();
+		
+		int L = Integer.parseInt(br.readLine());
+		int N = Integer.parseInt(br.readLine());
+		int[] arr = new int[L + 1];
+		int[] cnt = new int[L + 1];
+		int idx = 1, expect = 0, ret = 0, mode = 0, max = 0;
+		
+		for (int i = 1; i <= N; i++) {
+			st = new StringTokenizer(br.readLine(), " ");
+			
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			
+			if(expect < b - a) {
+				expect = b - a;
+				ret = i;
+			}
+			
+			for (int j = a; j <= b; j++) {
+				if(arr[j] == 0) {
+					arr[j] = idx;
+				}
+			}
+			
+			idx++;
+		}
+		
+		for (int i = 1; i <= L; i++) {
+			cnt[arr[i]]++;
+		}
+		
+		for (int i = 1; i <= L; i++) {
+			if(max < cnt[i]) {
+				max = cnt[i];
+				mode = i;
+			}
+		}
+		
+		sb.append(ret).append('\n').append(mode);
+		
+		bw.write(sb.toString());
+		bw.close();
+		br.close();
+	}
+}
+
