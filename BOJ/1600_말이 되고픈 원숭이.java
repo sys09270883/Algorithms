@@ -105,11 +105,9 @@ public class Main {
 					if (nhorseCnt == K)
 						continue;
 					
-					nhorseCnt++;
+					if (visited[nx][ny][++nhorseCnt])
+						continue;
 				}
-				
-				if (visited[nx][ny][nhorseCnt])
-					continue;
 
 				visited[nx][ny][nhorseCnt] = true;
 				queue.add(new Node(nx, ny, nhorseCnt, cnt + 1));
