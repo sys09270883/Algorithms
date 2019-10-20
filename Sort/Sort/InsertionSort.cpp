@@ -29,10 +29,10 @@ int main() {
 		arr[i] = rand() % 99 + 1;
 	}
 
-	cout << " # 정렬 전" << endl;
+	cout << " # before sort" << endl;
 	print_array(arr);
 
-	cout << " # 정렬 후" << endl;
+	cout << " # after sort" << endl;
 	insertion_sort(arr);
 	print_array(arr);
 
