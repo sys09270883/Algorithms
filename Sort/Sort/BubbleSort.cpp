@@ -9,10 +9,10 @@ void bubble_sort(int * arr) {
 
 	for (int i = 0; i < len - 1; i++)
 	{
-		for (int j = i + 1; j < len; j++)
+		for (int j = 0; j < len - 1 - i; j++)
 		{
-			if (arr[i] > arr[j])
-				swap(arr, i, j);
+			if (arr[j] > arr[j + 1])
+				swap(arr, j, j + 1);
 		}
 	}
 }
@@ -24,10 +24,10 @@ void bubble_sort2(int * arr) {
 	for (int i = 0; i < len - 1 && flag; i++)
 	{
 		flag = false;
-		for (int j = i + 1; j < len; j++)
+		for (int j = 0; j < len - 1 - i; j++)
 		{
-			if (arr[i] > arr[j]) {
-				swap(arr, i, j);
+			if (arr[j] > arr[j + 1]) {
+				swap(arr, j, j + 1);
 				flag = true;
 			}
 		}
