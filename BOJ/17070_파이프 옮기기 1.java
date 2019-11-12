@@ -1,62 +1,324 @@
 /*
 https://www.acmicpc.net/problem/17070
-[¹®Á¦]
-À¯ÇöÀÌ°¡ »õ ÁýÀ¸·Î ÀÌ»çÇß´Ù. »õ ÁýÀÇ Å©±â´Â N¡¿NÀÇ °ÝÀÚÆÇÀ¸·Î ³ªÅ¸³¾ ¼ö ÀÖ°í, 1¡¿1Å©±âÀÇ Á¤»ç°¢Çü Ä­À¸·Î ³ª´©¾îÁ® ÀÖ´Ù. 
-°¢°¢ÀÇ Ä­Àº (r, c)·Î ³ªÅ¸³¾ ¼ö ÀÖ´Ù. ¿©±â¼­ rÀº ÇàÀÇ ¹øÈ£, c´Â ¿­ÀÇ ¹øÈ£ÀÌ°í, Çà°ú ¿­ÀÇ ¹øÈ£´Â 1ºÎÅÍ ½ÃÀÛÇÑ´Ù. °¢°¢ÀÇ Ä­Àº ºó Ä­ÀÌ°Å³ª º®ÀÌ´Ù.
+[ë¬¸ì œ]
+ìœ í˜„ì´ê°€ ìƒˆ ì§‘ìœ¼ë¡œ ì´ì‚¬í–ˆë‹¤. ìƒˆ ì§‘ì˜ í¬ê¸°ëŠ” NÃ—Nì˜ ê²©ìžíŒìœ¼ë¡œ ë‚˜íƒ€ë‚¼ ìˆ˜ ìžˆê³ , 1Ã—1í¬ê¸°ì˜ ì •ì‚¬ê°í˜• ì¹¸ìœ¼ë¡œ ë‚˜ëˆ„ì–´ì ¸ ìžˆë‹¤. 
+ê°ê°ì˜ ì¹¸ì€ (r, c)ë¡œ ë‚˜íƒ€ë‚¼ ìˆ˜ ìžˆë‹¤. ì—¬ê¸°ì„œ rì€ í–‰ì˜ ë²ˆí˜¸, cëŠ” ì—´ì˜ ë²ˆí˜¸ì´ê³ , í–‰ê³¼ ì—´ì˜ ë²ˆí˜¸ëŠ” 1ë¶€í„° ì‹œìž‘í•œë‹¤. ê°ê°ì˜ ì¹¸ì€ ë¹ˆ ì¹¸ì´ê±°ë‚˜ ë²½ì´ë‹¤.
 
-¿À´ÃÀº Áý ¼ö¸®¸¦ À§ÇØ¼­ ÆÄÀÌÇÁ ÇÏ³ª¸¦ ¿Å±â·Á°í ÇÑ´Ù. ÆÄÀÌÇÁ´Â ¾Æ·¡¿Í °°Àº ÇüÅÂÀÌ°í, 2°³ÀÇ ¿¬¼ÓµÈ Ä­À» Â÷ÁöÇÏ´Â Å©±âÀÌ´Ù.
-
-
-
-ÆÄÀÌÇÁ´Â È¸Àü½ÃÅ³ ¼ö ÀÖÀ¸¸ç, ¾Æ·¡¿Í °°ÀÌ 3°¡Áö ¹æÇâÀÌ °¡´ÉÇÏ´Ù.
+ì˜¤ëŠ˜ì€ ì§‘ ìˆ˜ë¦¬ë¥¼ ìœ„í•´ì„œ íŒŒì´í”„ í•˜ë‚˜ë¥¼ ì˜®ê¸°ë ¤ê³  í•œë‹¤. íŒŒì´í”„ëŠ” ì•„ëž˜ì™€ ê°™ì€ í˜•íƒœì´ê³ , 2ê°œì˜ ì—°ì†ëœ ì¹¸ì„ ì°¨ì§€í•˜ëŠ” í¬ê¸°ì´ë‹¤.
 
 
 
-ÆÄÀÌÇÁ´Â ¸Å¿ì ¹«°Ì±â ¶§¹®¿¡, À¯ÇöÀÌ´Â ÆÄÀÌÇÁ¸¦ ¹Ð¾î¼­ ÀÌµ¿½ÃÅ°·Á°í ÇÑ´Ù. º®¿¡´Â »õ·Î¿î º®Áö¸¦ ¹ß¶ú±â ¶§¹®¿¡, ÆÄÀÌÇÁ°¡ º®À» ±ÜÀ¸¸é ¾È µÈ´Ù.
-Áï, ÆÄÀÌÇÁ´Â Ç×»ó ºó Ä­¸¸ Â÷ÁöÇØ¾ß ÇÑ´Ù.
-
-ÆÄÀÌÇÁ¸¦ ¹Ð ¼ö ÀÖ´Â ¹æÇâÀº ÃÑ 3°¡Áö°¡ ÀÖÀ¸¸ç, ¡æ, ¢Ù, ¡é ¹æÇâÀÌ´Ù. ÆÄÀÌÇÁ´Â ¹Ð¸é¼­ È¸Àü½ÃÅ³ ¼ö ÀÖ´Ù. 
-È¸ÀüÀº 45µµ¸¸ È¸Àü½ÃÅ³ ¼ö ÀÖÀ¸¸ç, ¹Ì´Â ¹æÇâÀº ¿À¸¥ÂÊ, ¾Æ·¡, ¶Ç´Â ¿À¸¥ÂÊ ¾Æ·¡ ´ë°¢¼± ¹æÇâÀÌ¾î¾ß ÇÑ´Ù.
-
-ÆÄÀÌÇÁ°¡ °¡·Î·Î ³õ¿©Áø °æ¿ì¿¡ °¡´ÉÇÑ ÀÌµ¿ ¹æ¹ýÀº ÃÑ 2°¡Áö, ¼¼·Î·Î ³õ¿©Áø °æ¿ì¿¡´Â 2°¡Áö, ´ë°¢¼± ¹æÇâÀ¸·Î ³õ¿©Áø °æ¿ì¿¡´Â 3°¡Áö°¡ ÀÖ´Ù.
-
-¾Æ·¡ ±×¸²Àº ÆÄÀÌÇÁ°¡ ³õ¿©Áø ¹æÇâ¿¡ µû¶ó¼­ ÀÌµ¿ÇÒ ¼ö ÀÖ´Â ¹æ¹ýÀ» ¸ðµÎ ³ªÅ¸³½ °ÍÀÌ°í, ²À ºó Ä­ÀÌ¾î¾ß ÇÏ´Â °÷Àº »öÀ¸·Î Ç¥½ÃµÇ¾îÁ® ÀÖ´Ù.
+íŒŒì´í”„ëŠ” íšŒì „ì‹œí‚¬ ìˆ˜ ìžˆìœ¼ë©°, ì•„ëž˜ì™€ ê°™ì´ 3ê°€ì§€ ë°©í–¥ì´ ê°€ëŠ¥í•˜ë‹¤.
 
 
 
-°¡·Î
+íŒŒì´í”„ëŠ” ë§¤ìš° ë¬´ê²ê¸° ë•Œë¬¸ì—, ìœ í˜„ì´ëŠ” íŒŒì´í”„ë¥¼ ë°€ì–´ì„œ ì´ë™ì‹œí‚¤ë ¤ê³  í•œë‹¤. ë²½ì—ëŠ” ìƒˆë¡œìš´ ë²½ì§€ë¥¼ ë°œëžê¸° ë•Œë¬¸ì—, íŒŒì´í”„ê°€ ë²½ì„ ê¸ìœ¼ë©´ ì•ˆ ëœë‹¤.
+ì¦‰, íŒŒì´í”„ëŠ” í•­ìƒ ë¹ˆ ì¹¸ë§Œ ì°¨ì§€í•´ì•¼ í•œë‹¤.
+
+íŒŒì´í”„ë¥¼ ë°€ ìˆ˜ ìžˆëŠ” ë°©í–¥ì€ ì´ 3ê°€ì§€ê°€ ìžˆìœ¼ë©°, â†’, â†˜, â†“ ë°©í–¥ì´ë‹¤. íŒŒì´í”„ëŠ” ë°€ë©´ì„œ íšŒì „ì‹œí‚¬ ìˆ˜ ìžˆë‹¤. 
+íšŒì „ì€ 45ë„ë§Œ íšŒì „ì‹œí‚¬ ìˆ˜ ìžˆìœ¼ë©°, ë¯¸ëŠ” ë°©í–¥ì€ ì˜¤ë¥¸ìª½, ì•„ëž˜, ë˜ëŠ” ì˜¤ë¥¸ìª½ ì•„ëž˜ ëŒ€ê°ì„  ë°©í–¥ì´ì–´ì•¼ í•œë‹¤.
+
+íŒŒì´í”„ê°€ ê°€ë¡œë¡œ ë†“ì—¬ì§„ ê²½ìš°ì— ê°€ëŠ¥í•œ ì´ë™ ë°©ë²•ì€ ì´ 2ê°€ì§€, ì„¸ë¡œë¡œ ë†“ì—¬ì§„ ê²½ìš°ì—ëŠ” 2ê°€ì§€, ëŒ€ê°ì„  ë°©í–¥ìœ¼ë¡œ ë†“ì—¬ì§„ ê²½ìš°ì—ëŠ” 3ê°€ì§€ê°€ ìžˆë‹¤.
+
+ì•„ëž˜ ê·¸ë¦¼ì€ íŒŒì´í”„ê°€ ë†“ì—¬ì§„ ë°©í–¥ì— ë”°ë¼ì„œ ì´ë™í•  ìˆ˜ ìžˆëŠ” ë°©ë²•ì„ ëª¨ë‘ ë‚˜íƒ€ë‚¸ ê²ƒì´ê³ , ê¼­ ë¹ˆ ì¹¸ì´ì–´ì•¼ í•˜ëŠ” ê³³ì€ ìƒ‰ìœ¼ë¡œ í‘œì‹œë˜ì–´ì ¸ ìžˆë‹¤.
 
 
 
-¼¼·Î
+ê°€ë¡œ
 
 
 
-´ë°¢¼±
+ì„¸ë¡œ
 
-°¡Àå Ã³À½¿¡ ÆÄÀÌÇÁ´Â (1, 1)¿Í (1, 2)¸¦ Â÷ÁöÇÏ°í ÀÖ°í, ¹æÇâÀº °¡·ÎÀÌ´Ù. ÆÄÀÌÇÁÀÇ ÇÑÂÊ ³¡À» (N, N)·Î ÀÌµ¿½ÃÅ°´Â ¹æ¹ýÀÇ °³¼ö¸¦ ±¸ÇØº¸ÀÚ.
 
-[ÀÔ·Â]
-Ã¹Â° ÁÙ¿¡ ÁýÀÇ Å©±â N(3 ¡Â N ¡Â 16)ÀÌ ÁÖ¾îÁø´Ù. µÑÂ° ÁÙºÎÅÍ N°³ÀÇ ÁÙ¿¡´Â ÁýÀÇ »óÅÂ°¡ ÁÖ¾îÁø´Ù. 
-ºó Ä­Àº 0, º®Àº 1·Î ÁÖ¾îÁø´Ù. (1, 1)°ú (1, 2)´Â Ç×»ó ºó Ä­ÀÌ´Ù.
 
-[Ãâ·Â]
-Ã¹Â° ÁÙ¿¡ ÆÄÀÌÇÁÀÇ ÇÑÂÊ ³¡À» (N, N)À¸·Î ÀÌµ¿½ÃÅ°´Â ¹æ¹ýÀÇ ¼ö¸¦ Ãâ·ÂÇÑ´Ù. ÀÌµ¿½ÃÅ³ ¼ö ¾ø´Â °æ¿ì¿¡´Â 0À» Ãâ·ÂÇÑ´Ù. ¹æ¹ýÀÇ ¼ö´Â Ç×»ó 1,000,000º¸´Ù ÀÛ°Å³ª °°´Ù.
+ëŒ€ê°ì„ 
 
-[Ç®ÀÌ]
-¿ÏÀü Å½»ö°ú dp·Î Ç®ÀÌ°¡ °¡´ÉÇÏ´Ù.
+ê°€ìž¥ ì²˜ìŒì— íŒŒì´í”„ëŠ” (1, 1)ì™€ (1, 2)ë¥¼ ì°¨ì§€í•˜ê³  ìžˆê³ , ë°©í–¥ì€ ê°€ë¡œì´ë‹¤. íŒŒì´í”„ì˜ í•œìª½ ëì„ (N, N)ë¡œ ì´ë™ì‹œí‚¤ëŠ” ë°©ë²•ì˜ ê°œìˆ˜ë¥¼ êµ¬í•´ë³´ìž.
 
-1. ¿ÏÀü Å½»ö
-  ¹®Á¦ ÀÚÃ¼´Â ÁÖ¾îÁø Á¶°Ç¿¡ ¸ÂÃç ±¸ÇöÇÏ¸é µÇ´Â °£´ÜÇÑ ¹®Á¦¿´´Ù.
-  Ãß°¡ ½Ã°£ÀÌ ¾ø´Â ¹®Á¦¿©¼­ BFS·Î´Â ½Ã°£Á¦ÇÑ¿¡ °É·È´Ù. ½ºÅÃÀ¸·Î ±¸ÇöÇÑ DFSµµ °Ü¿ì ½Ã°£À» Åë°úÇÒ Á¤µµ¿´´Ù.
-  Àç±Í·Î ±¸ÇöÇÑ DFS¸¦ Á¦ÃâÇÏ´Ï Åë°úÇß´Ù.
+[ìž…ë ¥]
+ì²«ì§¸ ì¤„ì— ì§‘ì˜ í¬ê¸° N(3 â‰¤ N â‰¤ 16)ì´ ì£¼ì–´ì§„ë‹¤. ë‘˜ì§¸ ì¤„ë¶€í„° Nê°œì˜ ì¤„ì—ëŠ” ì§‘ì˜ ìƒíƒœê°€ ì£¼ì–´ì§„ë‹¤. 
+ë¹ˆ ì¹¸ì€ 0, ë²½ì€ 1ë¡œ ì£¼ì–´ì§„ë‹¤. (1, 1)ê³¼ (1, 2)ëŠ” í•­ìƒ ë¹ˆ ì¹¸ì´ë‹¤.
+
+[ì¶œë ¥]
+ì²«ì§¸ ì¤„ì— íŒŒì´í”„ì˜ í•œìª½ ëì„ (N, N)ìœ¼ë¡œ ì´ë™ì‹œí‚¤ëŠ” ë°©ë²•ì˜ ìˆ˜ë¥¼ ì¶œë ¥í•œë‹¤. ì´ë™ì‹œí‚¬ ìˆ˜ ì—†ëŠ” ê²½ìš°ì—ëŠ” 0ì„ ì¶œë ¥í•œë‹¤. ë°©ë²•ì˜ ìˆ˜ëŠ” í•­ìƒ 1,000,000ë³´ë‹¤ ìž‘ê±°ë‚˜ ê°™ë‹¤.
+
+[í’€ì´]
+ì™„ì „ íƒìƒ‰ê³¼ dpë¡œ í’€ì´ê°€ ê°€ëŠ¥í•˜ë‹¤.
+
+1. ì™„ì „ íƒìƒ‰
+  ë¬¸ì œ ìžì²´ëŠ” ì£¼ì–´ì§„ ì¡°ê±´ì— ë§žì¶° êµ¬í˜„í•˜ë©´ ë˜ëŠ” ê°„ë‹¨í•œ ë¬¸ì œì˜€ë‹¤.
+  ì¶”ê°€ ì‹œê°„ì´ ì—†ëŠ” ë¬¸ì œì—¬ì„œ BFSë¡œëŠ” ì‹œê°„ì œí•œì— ê±¸ë ¸ë‹¤. ìŠ¤íƒìœ¼ë¡œ êµ¬í˜„í•œ DFSë„ ê²¨ìš° ì‹œê°„ì„ í†µê³¼í•  ì •ë„ì˜€ë‹¤.
+  ìž¬ê·€ë¡œ êµ¬í˜„í•œ DFSë¥¼ ì œì¶œí•˜ë‹ˆ í†µê³¼í–ˆë‹¤.
 
 2. dp
-  (x, y)¿¡ µµ´ÞÇÒ ¼ö ÀÖ´Â °æ¿ìÀÇ ¼ö, dirÀ» ¹æÇâÀ¸·Î dp¸¦ ¸¸µç´Ù.
-  1) ÀÌµ¿Çß´Âµ¥ ¹æÇâÀÌ °¡·ÎÀÎ °æ¿ì : ÀÌµ¿ÇÏ±â Àü ¹æÇâÀÌ °¡·Î, ´ë°¢
-  2) ÀÌµ¿Çß´Âµ¥ ¹æÇâÀÌ ¼¼·ÎÀÎ °æ¿ì : ÀÌµ¿ÇÏ±â Àü ¹æÇâÀÌ ¼¼·Î, ´ë°¢
-  3) ÀÌµ¿Çß´Âµ¥ ¹æÇâÀÌ ´ë°¢ÀÎ °æ¿ì : ÀÌµ¿ÇÏ±â Àü ¹æÇâÀÌ °¡·Î, ¼¼·Î, ´ë°¢
-  ÃÖÁ¾ÀûÀ¸·Î dp[N - 1][N - 1][0 ~ 2]ÀÇ °ªµéÀ» ´õÇÑ´Ù.
+  (x, y)ì— ë„ë‹¬í•  ìˆ˜ ìžˆëŠ” ê²½ìš°ì˜ ìˆ˜, dirì„ ë°©í–¥ìœ¼ë¡œ dpë¥¼ ë§Œë“ ë‹¤.
+  1) ì´ë™í–ˆëŠ”ë° ë°©í–¥ì´ ê°€ë¡œì¸ ê²½ìš° : ì´ë™í•˜ê¸° ì „ ë°©í–¥ì´ ê°€ë¡œ, ëŒ€ê°
+  2) ì´ë™í–ˆëŠ”ë° ë°©í–¥ì´ ì„¸ë¡œì¸ ê²½ìš° : ì´ë™í•˜ê¸° ì „ ë°©í–¥ì´ ì„¸ë¡œ, ëŒ€ê°
+  3) ì´ë™í–ˆëŠ”ë° ë°©í–¥ì´ ëŒ€ê°ì¸ ê²½ìš° : ì´ë™í•˜ê¸° ì „ ë°©í–¥ì´ ê°€ë¡œ, ì„¸ë¡œ, ëŒ€ê°
+  ìµœì¢…ì ìœ¼ë¡œ dp[N - 1][N - 1][0 ~ 2]ì˜ ê°’ë“¤ì„ ë”í•œë‹¤.
   
- dp·Î Ç®ÀÌÇÏ´Â °ÍÀÌ ´õ ÁÁÀº Ç®ÀÌÀÎ µí ½Í´Ù.
+ dpë¡œ í’€ì´í•˜ëŠ” ê²ƒì´ ë” ì¢‹ì€ í’€ì´ì¸ ë“¯ ì‹¶ë‹¤.
 */
+// 1. ì™„ì „ íƒìƒ‰
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	static FastIO io = new FastIO();
+	static int N, cnt;
+	static int[][] map;
+	static int[] dx = {0, 1, 1};
+	static int[] dy = {1, 0, 1};
+	
+	public static void main(String... args) throws IOException {
+		N = io.nextInt();
+		map = new int[N][N];
+		
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				map[i][j] = io.nextInt();
+			}
+		}
+		
+		func(0, 1, 0);
+		
+		io.write(cnt);
+	}
+	
+	private static void func(int x, int y, int dir) {
+		if (x == N - 1 && y == N - 1) {
+			cnt++;
+			return;
+		}
+		
+		for (int i = 0; i < 3; i++) {
+			if ((i == 0 && dir == 1) || (i == 1 && dir == 0))
+				continue;
+			
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+			
+			if (nx >= N || ny >= N || map[nx][ny] == 1)
+				continue;
+			
+			if (i == 2 && (map[nx - 1][ny] == 1 || map[nx][ny - 1] == 1))
+				continue;
+			
+			func(nx, ny, i);
+		}
+	}
+	
+}
+
+class Node {
+	int x, y, dir;
+
+	public Node(int x, int y, int dir) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.dir = dir;
+	}
+	
+}
+
+class FastIO {
+	static BufferedReader br;
+	static BufferedWriter bw;
+	static StringTokenizer st;
+	
+	FastIO() {
+		br = new BufferedReader(new InputStreamReader(System.in));
+		bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	}
+	
+	String next() {
+		while (st == null || !st.hasMoreTokens()) {
+			try {
+				st = new StringTokenizer(br.readLine());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return st.nextToken();
+	}
+	
+	int nextInt() {
+		return Integer.parseInt(next());
+	}
+	
+	long nextLong() {
+		return Long.parseLong(next());
+	}
+	
+	double nextDouble() {
+		return Double.parseDouble(next());
+	}
+	
+	String nextLine() {
+		String str = null;
+		try {
+			str = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return str;
+	}
+	
+	void write(double d) throws IOException { 
+		bw.write(String.valueOf(d));
+		close();
+	}
+	
+	void write(int i) throws IOException {
+		bw.write(String.valueOf(i));
+		close();
+	}
+	
+	void write(long l) throws IOException {
+		bw.write(String.valueOf(l));
+		close();
+	}
+	
+	void write(StringBuilder sb) throws IOException {
+		bw.write(sb.toString().trim());
+		close();
+	}
+	
+	void write(String str) throws IOException {
+		bw.write(str.trim());
+		close();
+	}
+	
+	void close() throws IOException {
+		bw.close();
+		br.close();
+	}
+}
+
+
+// 2. dp
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	static FastIO io = new FastIO();
+	static int N, cnt;
+	static int[][] map;
+	static int[][][] dp;
+	static int[] dx = { 0, 1, 1 };
+	static int[] dy = { 1, 0, 1 };
+
+	public static void main(String... args) throws IOException {
+		N = io.nextInt();
+		map = new int[N + 1][N + 1];
+		dp = new int[N + 1][N + 1][3];
+
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				map[i][j] = io.nextInt();
+			}
+		}
+		
+		dp[0][1][0] = 1;
+		
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				if (map[i][j + 1] == 0)
+					dp[i][j + 1][0] += dp[i][j][0] + dp[i][j][2];
+				
+				if (map[i + 1][j] == 0)
+					dp[i + 1][j][1] += dp[i][j][1] + dp[i][j][2];
+				
+				if (map[i + 1][j] == 0 && map[i][j + 1] == 0 && map[i + 1][j + 1] == 0)
+					dp[i + 1][j + 1][2] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
+			}
+		}
+		
+		cnt = dp[N - 1][N - 1][0] + dp[N - 1][N - 1][1] + dp[N - 1][N - 1][2];
+		
+		io.write(cnt);
+	}
+
+}
+
+class FastIO {
+	static BufferedReader br;
+	static BufferedWriter bw;
+	static StringTokenizer st;
+
+	FastIO() {
+		br = new BufferedReader(new InputStreamReader(System.in));
+		bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	}
+
+	String next() {
+		while (st == null || !st.hasMoreTokens()) {
+			try {
+				st = new StringTokenizer(br.readLine());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return st.nextToken();
+	}
+
+	int nextInt() {
+		return Integer.parseInt(next());
+	}
+
+	long nextLong() {
+		return Long.parseLong(next());
+	}
+
+	double nextDouble() {
+		return Double.parseDouble(next());
+	}
+
+	String nextLine() {
+		String str = null;
+		try {
+			str = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return str;
+	}
+
+	void write(double d) throws IOException {
+		bw.write(String.valueOf(d));
+		close();
+	}
+
+	void write(int i) throws IOException {
+		bw.write(String.valueOf(i));
+		close();
+	}
+
+	void write(long l) throws IOException {
+		bw.write(String.valueOf(l));
+		close();
+	}
+
+	void write(StringBuilder sb) throws IOException {
+		bw.write(sb.toString().trim());
+		close();
+	}
+
+	void write(String str) throws IOException {
+		bw.write(str.trim());
+		close();
+	}
+
+	void close() throws IOException {
+		bw.close();
+		br.close();
+	}
+}
