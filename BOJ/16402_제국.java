@@ -37,22 +37,10 @@ public class Main {
             B = hm.get(st2.nextToken());
             C = Integer.parseInt(st1.nextToken());
 
-            if (find(A) != find(B)) {
-                if (C == 1)
-                    union(find(A), find(B));
-                else
-                    union(find(B), find(A));
-            }
-            else {
-                if (C == 1) {
-                    union(A, B);
-                    parent[A] = A;
-                }
-                else {
-                    union(B, A);
-                    parent[B] = B;
-                }
-            }
+            if (C == 1)
+                union(A, B);
+            else
+                union(B, A);
         }
 
         for (int i = 1; i < N + 1; i++) {
@@ -75,8 +63,14 @@ public class Main {
     }
 
     private static void union(int x, int y) {
-        if (x != y)
+        int px = find(x);
+        int py = find(y);
+        if (px == py && y == px) {
             parent[y] = x;
+            parent[x] = x;
+        }
+        else if (px != py)
+            parent[py] = px;
     }
 }
 
