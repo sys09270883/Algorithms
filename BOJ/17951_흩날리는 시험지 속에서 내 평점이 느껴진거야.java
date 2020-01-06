@@ -15,14 +15,14 @@ public class Main {
 
         while (low <= high) {
             int m = (low + high) / 2;
-            int s1 = 0, s2 = 0, ms = 0, diff = Integer.MAX_VALUE, cnt = 1;
+            int s = 0, diff = Integer.MAX_VALUE, cnt = 1;
             boolean flag = false;
 
             for (int i = 0; i < N; i++) {
-                ms += arr[i];
-                if (ms >= m) {
-                    diff = Math.min(diff, ms);
-                    ms = 0;
+                s += arr[i];
+                if (s >= m) {
+                    diff = Math.min(diff, s);
+                    s = 0;
                     cnt++;
                     if (cnt > K) {
                         ans = Math.max(ans, diff);
