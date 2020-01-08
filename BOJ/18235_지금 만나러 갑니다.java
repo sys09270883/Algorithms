@@ -20,14 +20,14 @@ public class Main {
     }
 
     private static int BFS() {
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(new Node(A, 0, true));
-        queue.add(new Node(B, 0, false));
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.add(new Node(A, 0, true));
+        pq.add(new Node(B, 0, false));
         visitedA[A] = 0;
         visitedB[B] = 0;
 
-        while (!queue.isEmpty()) {
-            Node tmp = queue.poll();
+        while (!pq.isEmpty()) {
+            Node tmp = pq.poll();
             int cur = tmp.idx;
             int cnt = tmp.cnt;
             boolean flag = tmp.flag;
@@ -43,11 +43,9 @@ public class Main {
 
                 if (flag)
                     visitedA[next] = cnt + 1;
-
                 else
                     visitedB[next] = cnt + 1;
-
-                queue.add(new Node(next, cnt + 1, flag));
+                pq.add(new Node(next, cnt + 1, flag));
             }
         }
 
@@ -56,7 +54,7 @@ public class Main {
 
 }
 
-class Node {
+class Node implements Comparable<Node>{
     int idx, cnt;
     boolean flag;
 
@@ -64,6 +62,11 @@ class Node {
         this.idx = idx;
         this.cnt = cnt;
         this.flag = flag;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return this.cnt - o.cnt;
     }
 }
 
