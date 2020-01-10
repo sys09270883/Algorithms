@@ -34,7 +34,7 @@ public class Main {
 
             if (visitedA[cur] == visitedB[cur] && visitedB[cur] > -1)
                 return visitedB[cur];
- 
+
             for (int i = 0; i < 2; i++) {
                 int next = cur + dx[i] * (1 << cnt);
 
