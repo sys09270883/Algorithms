@@ -20,7 +20,7 @@ public class Main {
         parent = new int[N + 1];
         Arrays.setAll(parent, i -> i);
         cost = new int[N + 1];
-        Map<Integer, Node> tm = new TreeMap<>();
+        Map<Integer, Node> hm = new HashMap<>();
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < K; i++) {
             int a = io.nextInt(), b = io.nextInt();
@@ -45,17 +45,17 @@ public class Main {
                 cost[i] = Math.max(cost[i], adj[i][j]);
             }
 
-            if (tm.containsKey(parent[i])) {
-                if (cost[i] < tm.get(parent[i]).val)
-                    tm.put(parent[i], new Node(cost[i], i));
+            if (hm.containsKey(parent[i])) {
+                if (cost[i] < hm.get(parent[i]).val)
+                    hm.put(parent[i], new Node(cost[i], i));
             }
             else
-                tm.put(parent[i], new Node(cost[i], i));
+                hm.put(parent[i], new Node(cost[i], i));
         }
 
-        res.append(tm.size()).append('\n');
+        res.append(hm.size()).append('\n');
         List<Integer> list = new ArrayList<>();
-        for (Node n : tm.values()) {
+        for (Node n : hm.values()) {
             list.add(n.idx);
         }
         Collections.sort(list);
