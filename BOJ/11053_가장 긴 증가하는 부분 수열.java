@@ -1,59 +1,114 @@
-/*
-https://www.acmicpc.net/problem/11053
-[문제]
-수열 A가 주어졌을 때, 가장 긴 증가하는 부분 수열을 구하는 프로그램을 작성하시오.
-
-예를 들어, 수열 A = {10, 20, 10, 30, 20, 50} 인 경우에 가장 긴 증가하는 부분 수열은 A = {10, 20, 10, 30, 20, 50} 이고, 길이는 4이다.
-
-[입력]
-첫째 줄에 수열 A의 크기 N (1 ≤ N ≤ 1,000)이 주어진다.
-
-둘째 줄에는 수열 A를 이루고 있는 Ai가 주어진다. (1 ≤ Ai ≤ 1,000)
-
-[출력]
-첫째 줄에 수열 A의 가장 긴 증가하는 부분 수열의 길이를 출력한다.
-
-[풀이]
-i번째 항에서 0 ~ i - 1번째 항까지 검사하면서 길이를 갱신한다.
-갱신할 때 그 전까지의 값 중 최대값 + 1로 갱신해야 한다.(dp[j] + 1 > dp[i])
-
-
-*/
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		
-		int N = Integer.parseInt(br.readLine()), max = 1;
-		int[] A = new int[N];
-		int[] dp = new int[N];
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		for (int i = 0; i < N; i++) {
-			A[i] = Integer.parseInt(st.nextToken());
+
+	static FastIO io = new FastIO();
+	static int[] arr, dp;
+
+	public static void main(String... args) throws IOException {
+		int N = io.nextInt(), res = 1;
+		arr = new int[N + 1];   dp = new int[N + 1];
+		for (int i = 1; i < N + 1; i++) {
+			arr[i] = io.nextInt();
 		}
-		
-		dp[0] = 1;
-		
-		for (int i = 1; i < N; i++) {
-			dp[i] = 1;
-			for (int j = 0; j < i; j++) {
-				if (A[i] > A[j] && dp[j] + 1 > dp[i]) {
-					dp[i] = dp[j] + 1;
-				}
+
+		dp[1] = arr[1];
+		int idx = 1;
+		for (int i = 2; i < N + 1; i++) {
+			if (dp[idx] < arr[i])
+				dp[++idx] = arr[i];
+			else {
+				int j = lowerBound(idx, arr[i]);
+				dp[j] = arr[i];
 			}
-			
-			if (max < dp[i])
-				max = dp[i];
+			res = Math.max(res, idx);
 		}
-		
-		bw.write(String.valueOf(max));
+
+		io.write(res);
+	}
+
+	private static int lowerBound(int end, int n) {
+		int start = 0, ret = -1;
+		while (start <= end) {
+			int m = (start + end) / 2;
+			if (dp[m] >= n) {
+				end = m - 1;
+				ret = m;
+			}
+			else
+				start = m + 1;
+		}
+		return ret;
+	}
+
+}
+
+class FastIO {
+	static BufferedReader br;
+	static BufferedWriter bw;
+	static StringTokenizer st;
+
+	FastIO() {
+		br = new BufferedReader(new InputStreamReader(System.in));
+		bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	}
+
+	String next() throws IOException {
+		while (st == null || !st.hasMoreTokens()) {
+			st = new StringTokenizer(br.readLine());
+		}
+
+		return st.nextToken();
+	}
+
+	int nextInt() throws IOException {
+		return Integer.parseInt(next());
+	}
+
+	long nextLong() throws IOException {
+		return Long.parseLong(next());
+	}
+
+	double nextDouble() throws IOException {
+		return Double.parseDouble(next());
+	}
+
+	String nextLine() throws IOException {
+		return br.readLine();
+	}
+
+	void write(double d) throws IOException {
+		bw.write(String.valueOf(d));
+		close();
+	}
+
+	void write(char c) throws IOException {
+		bw.write(c);
+		close();
+	}
+
+	void write(int i) throws IOException {
+		bw.write(String.valueOf(i));
+		close();
+	}
+
+	void write(long l) throws IOException {
+		bw.write(String.valueOf(l));
+		close();
+	}
+
+	void write(StringBuilder sb) throws IOException {
+		bw.write(sb.toString().trim());
+		close();
+	}
+
+	void write(String str) throws IOException {
+		bw.write(str.trim());
+		close();
+	}
+
+	void close() throws IOException {
 		bw.close();
 		br.close();
 	}
