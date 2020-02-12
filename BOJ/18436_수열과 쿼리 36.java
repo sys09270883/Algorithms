@@ -4,94 +4,63 @@ import java.util.*;
 public class Main {
 
     static FastIO io = new FastIO();
-    static int N, M, H;
-    static int[] arr, odd, even;
+    static int N, M;
+    static int[] arr, tree;
 
     public static void main(String... args) throws IOException {
         N = io.nextInt();
         arr = new int[N + 1];
-        H = 1 << (int)Math.ceil(Math.log(N) / Math.log(2)) + 1;
-        odd = new int[H];   even = new int[H];
+        tree = new int[1 << (int)Math.ceil(Math.log(N) / Math.log(2)) + 1];
         StringBuilder res = new StringBuilder();
 
         for (int i = 1; i < N + 1; i++) {
             arr[i] = io.nextInt();
         }
 
-        initOdd(1, 1, N);
-        initEven(1, 1, N);
+        init(1, 1, N);
 
         M = io.nextInt();
         for (int i = 0; i < M; i++) {
             int a = io.nextInt(), b = io.nextInt(), c = io.nextInt();
             if (a == 1) {
-                if ((arr[b] & 1) == 1 && (c & 1) == 0) {
-                    updateEven(b, 1, 1, 1, N);
-                    updateOdd(b, -1, 1, 1, N);
-                }
-                else if ((arr[b] & 1) == 0 && (c & 1) == 1) {
-                    updateEven(b, -1, 1, 1, N);
-                    updateOdd(b, 1, 1, 1, N);
-                }
+                if ((arr[b] & 1) == 1 && (c & 1) == 0)
+                    update(b, -1, 1, 1, N);
+                else if ((arr[b] & 1) == 0 && (c & 1) == 1)
+                    update(b, 1, 1, 1, N);
                 arr[b] = c;
             }
             else if (a == 2)
-                res.append(queryEven(b, c, 1, 1, N)).append('\n');
+                res.append(c - b + 1 - query(b, c, 1, 1, N)).append('\n');
             else if (a == 3)
-                res.append(queryOdd(b, c, 1, 1, N)).append('\n');
+                res.append(query(b, c, 1, 1, N)).append('\n');
         }
 
         io.write(res);
     }
 
-    private static int initOdd(int n, int s, int e) {
+    private static int init(int n, int s, int e) {
         if (s == e)
-            return odd[n] = (arr[s] & 1) == 1 ? 1 : 0;
+            return tree[n] = (arr[s] & 1) == 1 ? 1 : 0;
         int m = s + e >>> 1;
-        return odd[n] = initOdd(2 * n, s, m) + initOdd(2 * n + 1, m + 1, e);
+        return tree[n] = init(2 * n, s, m) + init(2 * n + 1, m + 1, e);
     }
 
-    private static int initEven(int n, int s, int e) {
-        if (s == e)
-            return even[n] = (arr[s] & 1) == 0 ? 1 : 0;
-        int m = s + e >>> 1;
-        return even[n] = initEven(2 * n, s, m) + initEven(2 * n + 1, m + 1, e);
-    }
-
-    private static int updateOdd(int i, int v, int n, int s, int e) {
+    private static int update(int i, int v, int n, int s, int e) {
         if (i > e || i < s)
-            return odd[n];
+            return tree[n];
         if (s == e)
-            return odd[n] += v;
+            return tree[n] += v;
         int m = s + e >>> 1;
-        return odd[n] = updateOdd(i, v, 2 * n, s, m) + updateOdd(i, v, 2 * n + 1, m + 1, e);
+        return tree[n] = update(i, v, 2 * n, s, m) + update(i, v, 2 * n + 1, m + 1, e);
     }
 
-    private static int updateEven(int i, int v, int n, int s, int e) {
-        if (i > e || i < s)
-            return even[n];
-        if (s == e)
-            return even[n] += v;
-        int m = s + e >>> 1;
-        return even[n] = updateEven(i, v, 2 * n, s, m) + updateEven(i, v, 2 * n + 1, m + 1, e);
-    }
-
-    private static int queryOdd(int l, int r, int n, int s, int e) {
+    private static int query(int l, int r, int n, int s, int e) {
         if (l > e || r < s)
             return 0;
         if (l <= s && e <= r)
-            return odd[n];
+            return tree[n];
         int m = s + e >>> 1;
-        return queryOdd(l, r, 2 * n, s, m) + queryOdd(l, r, 2 * n + 1, m + 1, e);
-    }
-
-    private static int queryEven(int l, int r, int n, int s, int e) {
-        if (l > e || r < s)
-            return 0;
-        if (l <= s && e <= r)
-            return even[n];
-        int m = s + e >>> 1;
-        return queryEven(l, r, 2 * n, s, m) + queryEven(l, r, 2 * n + 1, m + 1, e);
+        return query(l, r, 2 * n, s, m) + query(l, r, 2 * n + 1, m + 1, e);
     }
 
 }
