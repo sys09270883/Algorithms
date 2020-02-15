@@ -29,7 +29,7 @@ public class Main {
 
         for (int i = 1; i < N + 1; i++) {
             for (int j = 0; j < K; j++) {
-                int next = arr[i] + ((arr[i] & (1 << j)) == 0 ? 1 << j : -(1 << j));
+                int next = arr[i] ^ (1 << j);
                 if (exist.containsKey(next))
                     adj.get(i).add(exist.get(next));
             }
