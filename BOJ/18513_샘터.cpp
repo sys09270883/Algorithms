@@ -27,24 +27,18 @@ ll BFS() {
     while (!q.empty() && cnt < K) {
         int cur = q.front().idx;
         int dir = q.front().dir;
-        int diff = q.front().diff;
+        int diff = q.front().diff + 1;
         q.pop();
         int next = cur + dir;
         if (next < -MAX || next > MAX)
             continue;
-        diff++;
-        if (vis.find(next) == vis.end()) {
-            vis[next] = diff;
-            cnt++;
-            q.push({next, dir, diff});
-        }
-        else {
+        if (vis.find(next) != vis.end()) {
             if (vis[next] <= diff)
                 continue;
-            vis[next] = diff;
-            cnt++;
-            q.push({next, dir, diff});
         }
+        vis[next] == diff;
+        cnt++;
+        q.push({next, dir, diff});
         ret += diff;
     }
     return ret;
