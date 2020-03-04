@@ -9,10 +9,10 @@ typedef long long ll;
 const int MAX = 5e5;
 int N;
 ll res;
-vector<ll> tree;
+vector<int> tree;
 unordered_map<int, int> m;
 
-ll update(int i, int v, int n, int s, int e) {
+int update(int i, int v, int n, int s, int e) {
     if (i > e || i < s)
         return tree[n];
     if (s == e)
@@ -21,7 +21,7 @@ ll update(int i, int v, int n, int s, int e) {
     return tree[n] = update(i, v, n << 1, s, m) + update(i, v, n << 1 | 1, m + 1, e);
 }
 
-ll query(int l, int r, int n, int s, int e) {
+int query(int l, int r, int n, int s, int e) {
     if (l > e || r < s)
         return 0;
     if (l <= s && e <= r)
