@@ -43,7 +43,7 @@ int main() {
     sort(p.begin(), p.end());
     for (auto& i : p) {
         res += query(i.second + 1, MAX, 1, 1, MAX);
-        update(i.second, 1, 1, 1, MAX);
+        update(i.second, 1, 1, MAX);
     }
     cout << res;
 }
