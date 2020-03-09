@@ -8,12 +8,12 @@ typedef long long ll;
 
 int N, M, res;
 vector<vector<int>> adj;
-vector<bool> vis;
+vector<bool> ind;
 
 int DFS(int cur) {
-    if (vis[cur])
+    if (ind[cur])
         return 0;
-    vis[cur] = true;
+    ind[cur] = true;
     int ret = adj[cur].size() & 1;
     for (auto& next : adj[cur]) {
         ret += DFS(next);
@@ -25,7 +25,7 @@ int main() {
     FASTIO
     cin >> N >> M;
     adj.resize(N + 1, vector<int>());
-    vis.resize(N + 1);
+    ind.resize(N + 1);
     for (int i = 0; i < M; i++) {
         int a, b;
         cin >> a >> b;
@@ -35,7 +35,7 @@ int main() {
     for (int i = 1; i < N + 1; i++) {
         if (adj[i].empty())
             continue;
-        if (!vis[i])
+        if (!ind[i])
             res += max(1, DFS(i) >> 1);
     }
     cout << res;
