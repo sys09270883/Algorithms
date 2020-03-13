@@ -26,7 +26,6 @@ priority_queue<Node> pq;
 
 void dijkstra() {
     while (!pq.empty()) {
-
         int cur = pq.top().idx;
         ll d = pq.top().dist;
         pq.pop();
