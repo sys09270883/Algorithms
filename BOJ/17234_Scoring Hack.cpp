@@ -22,20 +22,20 @@ struct Node {
 
 const int INF = 987654321;
 int N, A, B;
-bool vis[1001][1001][10];
+bool vis[1001][501][10];
 
 int BFS() {
-    priority_queue<Node> pq;
-    pq.push({A, 1, 0});
-    pq.push({B, 1, 0});
+    queue<Node> q;
+    q.push({A, 1, 0});
+    q.push({B, 1, 0});
     vis[A][1][0] = true;
     vis[B][1][0] = true;
     int ret = INF;
-    while (!pq.empty()) {
-        int cur = pq.top().score;
-        int cnt = pq.top().cnt;
-        int dcnt = pq.top().dcnt;
-        pq.pop();
+    while (!q.empty()) {
+        int cur = q.front().score;
+        int cnt = q.front().cnt;
+        int dcnt = q.front().dcnt;
+        q.pop();
         if (ret < cnt || cur >= N + A)
             continue;
         else if (cur >= N) {
@@ -43,20 +43,23 @@ int BFS() {
             continue;
         }
         for (auto next : {cur + A, cur + B}) {
-            if (dcnt > (cnt + 1) / 10)
+            int ncnt = cnt + 1;
+            if (dcnt > ncnt / 10)
                 continue;
-            if (vis[next][cnt + 1][dcnt])
+            if (vis[next][ncnt][dcnt])
                 continue;
-            vis[next][cnt + 1][dcnt] = true;
-            pq.push({next, cnt + 1, dcnt});
+            vis[next][ncnt][dcnt] = true;
+            q.push({next, ncnt, dcnt});
         }
         int next = cur << 1;
-        if (dcnt + 1 > (cnt + 1) / 10)
+        int ncnt = cnt + 1;
+        int ndcnt = dcnt + 1;
+        if (ndcnt > ncnt / 10)
             continue;
-        if (vis[next][cnt + 1][dcnt + 1])
+        if (vis[next][ncnt][ndcnt])
             continue;
-        vis[next][cnt + 1][dcnt + 1] = true;
-        pq.push({next, cnt + 1, dcnt + 1});
+        vis[next][ncnt][ndcnt] = true;
+        q.push({next, ncnt, ndcnt});
     }
     return ret;
 }
