@@ -12,12 +12,6 @@ struct Node {
     int score, cnt, dcnt;
 
     Node(int score, int cnt, int dcnt) : score(score), cnt(cnt), dcnt(dcnt) {}
-    
-    bool operator<(const Node& n) const {
-        if (cnt == n.cnt)
-            return this->dcnt < n.dcnt;
-        return this->cnt < n.cnt;
-    }
 };
 
 const int INF = 987654321;
