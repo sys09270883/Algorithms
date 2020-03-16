@@ -8,7 +8,7 @@ typedef long long ll;
 #define pll pair<ll, ll>
 #define all(x) (x).begin(), (x).end()
 
-int T, N;
+int T, N, MAX;
 vector<pii> v;
 vector<int> idx;
 vector<ll> tree;
@@ -21,6 +21,7 @@ bool cmp(const pii& p1, const pii& p2) {
 }
 
 void resize() {
+    MAX = 0;
     res = 0;
     v.clear();
     tree.clear();
@@ -62,10 +63,11 @@ int main() {
         sort(v.begin() + 1, v.end(), cmp);
         sort(all(idx));
         idx.erase(unique(all(idx)), idx.end());
+        MAX = idx.size();
         for (int i = 1; i < N + 1; i++) {
-            int tar = lower_bound(all(idx), v[i].second) - idx.begin() + 1;
-            res += query(tar, N, 1, 1, N);
-            update(tar, 1, 1, N);
+            int tar = lower_bound(idx.begin(), idx.end(), v[i].second) - idx.begin() + 1;
+            res += query(tar, MAX, 1, 1, MAX);
+            update(tar, 1, 1, MAX);
         }
         cout << res << endl;
     }
