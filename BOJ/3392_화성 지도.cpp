@@ -28,9 +28,8 @@ vector<int> tree, cnt;
 void update(int l, int r, int d, int n, int s, int e) {
     if (l > e || r < s)
         return;
-    if (l <= s && e <= r) {
+    if (l <= s && e <= r)
         cnt[n] += d;
-    }
     else {
         int m = s + e >> 1;
         update(l, r, d, n << 1, s, m);
