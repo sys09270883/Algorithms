@@ -31,9 +31,8 @@ bool BFS() {
         int y = q.front().second;
         q.pop();
         if (!tvis[x][y] && !adj[x][y].empty()) {
-            vector<pii>::iterator it;
-            for (it = adj[x][y].begin(); it != adj[x][y].end(); it++) {
-                tot[it->first][it->second] = true;
+            for (auto& i : adj[x][y]) {
+                tot[i.first][i.second] = true;
             }
             tvis[x][y] = true;
             ret = true;
