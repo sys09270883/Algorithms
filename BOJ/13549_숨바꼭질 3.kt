@@ -1,13 +1,14 @@
 import java.util.*
 
-class Node(var idx: Int, var cnt: Int){}
+data class Node(var idx: Int, var cnt: Int){}
 
 const val MAX = 1e5
 
 fun range(n: Int): Boolean {
-    if (n < 0 || n > MAX)
-        return false
-    return true
+    return when {
+        n < 0 || n > MAX -> false
+        else -> true
+    }
 }
 
 fun BFS(s: Int, e: Int): Int {
@@ -16,9 +17,8 @@ fun BFS(s: Int, e: Int): Int {
     q.add(Node(s, 0))
     vis[s] = 0
     while (!q.isEmpty()) {
-        val tmp: Node = q.poll()
-        val cur = tmp.idx
-        val cnt = tmp.cnt
+        val tmp = q.poll()
+        val (cur, cnt) = tmp
         var next = cur + 1
         if (range(next)) {
             if (vis[next] > cnt + 1) {
