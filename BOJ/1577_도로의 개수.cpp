@@ -11,11 +11,11 @@ typedef long long ll;
 int N, M, K;
 vector<vector<ll>> dp;
 map<pii, set<pii>> road;
-int dx[] = {1, 0};
-int dy[] = {0, 1};
+int dx[] = {-1, 0};
+int dy[] = {0, -1};
 
 ll func(int x, int y) {
-    if (x == N && y == M)
+    if (x == 0 && y == 0)
         return 1;
     ll &ret = dp[x][y];
     if (ret != -1)
@@ -24,7 +24,7 @@ ll func(int x, int y) {
     for (int i = 0; i < 2; i++) {
         int nx = x + dx[i];
         int ny = y + dy[i];
-        if (nx > N || ny > M)
+        if (nx < 0 || ny < 0)
             continue;
         pii cur(x, y), next(nx, ny);
         if (road.find(next) != road.end() && road[cur].find(next) != road[cur].end())
@@ -44,5 +44,5 @@ int main() {
         road[{x1, y1}].insert({x2, y2});
         road[{x2, y2}].insert({x1, y1});
     }
-    cout << func(0, 0);
+    cout << func(N, M);
 }
