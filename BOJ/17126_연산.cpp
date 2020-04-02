@@ -7,7 +7,8 @@ typedef long long ll;
 #define pii pair<int, int>
 #define pll pair<ll, ll>
 #define all(x) (x).begin(), (x).end()
-#define compress(x) sort(all(x)), x.erase(unique(all(x)), x.end());
+#define compress(x) sort(all(x)), (x).erase(unique(all(x)), (x).end());
+#define compress(x, y) sort(all(x), (y)), (x).erase(unique(all(x)), (x).end());
 
 struct Query {
     int q;
@@ -79,8 +80,7 @@ int main() {
         if (q == 2)
             idx.pb(b);
     }
-    sort(all(idx), cmp);
-    idx.erase(unique(all(idx)), idx.end());
+    compress(idx, cmp)
     resize();
     for (auto& q : qry) {
         int a = lower_bound(all(idx), q.a, cmp) - idx.begin(), b;
