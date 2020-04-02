@@ -39,22 +39,13 @@ void resize() {
     tree.resize(1 << (int)ceil(log2(sz)) + 1);
 }
 
-ll update(int i, int d, int n, int s, int e) {
+ll update(int i, int v, bool f, int n, int s, int e) {
     if (i > e || i < s)
         return tree[n];
     if (s == e)
-        return tree[n] += d;
+        return f ? tree[n] += v : tree[n] = v;
     int m = s + e >> 1;
-    return tree[n] = update(i, d, n << 1, s, m) + update(i, d, n << 1 | 1, m + 1, e);
-}
-
-ll remove(int i, int n, int s, int e) {
-    if (i > e || i < s)
-        return tree[n];
-    if (s == e)
-        return tree[n] = 0;
-    int m = s + e >> 1;
-    return tree[n] = remove(i, n << 1, s, m) + remove(i, n << 1 | 1, m + 1, e);
+    return tree[n] = update(i, v, f, n << 1, s, m) + update(i, v, f, n << 1 | 1, m + 1, e);
 }
 
 ll query(int l, int r, int n, int s, int e) {
@@ -86,7 +77,7 @@ int main() {
         int a = lower_bound(all(idx), q.a, cmp) - idx.begin(), b;
         if (q.q == 1) {
             b = stoi(q.b);
-            update(a, b, 1, 0, sz - 1);
+            update(a, b, true, 1, 0, sz - 1);
             cout << query(0, sz - 1, 1, 0, sz - 1) << ' ';
         }
         else if (q.q == 2) {
@@ -94,7 +85,7 @@ int main() {
             cout << query(a, b, 1, 0, sz - 1) << ' ';
         }
         else {
-            remove(a, 1, 0, sz - 1);
+            update(a, 0, false, 1, 0, sz - 1);
             cout << query(0, sz - 1, 1, 0, sz - 1) << ' ';
         }
     }
