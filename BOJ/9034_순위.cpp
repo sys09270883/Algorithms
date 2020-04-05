@@ -22,11 +22,10 @@ vector<Query> qry;
 vector<int> v, idx, tree;
 
 void clear() {
-    v.clear();
     idx = {0};
     tree.clear();
     qry.clear();
-    v.resize(N + 1);
+    v.assign(N + 1, 0);
 }
 
 int update(int i, int d, int n, int s, int e) {
