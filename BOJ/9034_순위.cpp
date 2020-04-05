@@ -1,81 +1,85 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 typedef long long ll;
+#define FASTIO ios_base::sync_with_stdio(false); cin.tie(NULL);
 #define endl '\n'
 #define pb push_back
 #define pii pair<int, int>
+#define pll pair<ll, ll>
+#define all(x) (x).begin(), (x).end()
+#define cpr(x) sort(all(x)), (x).erase(unique(all(x)), (x).end());
+#define cprcmp(x, y) sort(all(x), (y)), (x).erase(unique(all(x)), (x).end());
 
 struct Query {
     char q;
     int a, b;
-    Query(char q, int a, int b) : q(q), a(a), b(b) {}
+
+    Query(char q, int a, int b): q(q), a(a), b(b) {}
 };
 
-ll update(vector<ll>& tree, int i, int d, int n, int s, int e) {
+int T, N, M, sz;
+vector<Query> qry;
+vector<int> v, idx, tree;
+
+void clear() {
+    v.clear();
+    idx = {0};
+    tree.clear();
+    qry.clear();
+    v.resize(N + 1);
+}
+
+int update(int i, int d, int n, int s, int e) {
     if (i > e || i < s)
         return tree[n];
     if (s == e)
         return tree[n] += d;
     int m = s + e >> 1;
-    return tree[n] = update(tree, i, d, n << 1, s, m) + update(tree, i, d, n << 1 | 1, m + 1, e);
+    return tree[n] = update(i, d, n << 1, s, m) + update(i, d, n << 1 | 1, m + 1, e);
 }
 
-ll sum(vector<ll>& tree, int l, int r, int n, int s, int e) {
+int query(int l, int r, int n, int s, int e) {
     if (l > e || r < s)
         return 0;
     if (l <= s && e <= r)
         return tree[n];
     int m = s + e >> 1;
-    return sum(tree, l, r, n << 1, s, m) + sum(tree, l, r, n << 1 | 1, m + 1, e);
+    return query(l, r, n << 1, s, m) + query(l, r, n << 1 | 1, m + 1, e);
 }
 
 int main() {
     FASTIO
-    int T;
     cin >> T;
     while (T--) {
-        int N, M;
         cin >> N >> M;
-        vector<int> arr(N + 1, 0);
-        vector<int> idx;
-        vector<Query> query;
+        clear();
         for (int i = 0; i < M; i++) {
             char q;
-            int a, b;
-            cin >> q;
-            if (q == 'R') {
-                cin >> a >> b;
-                query.pb({q, a, b});
-            }
-            else if (q == 'Q') {
-                cin >> a;
-                query.pb({q, a, -1});
-            }
+            int a, b = -1;
+            cin >> q >> a;
+            if (q == 'R')
+                cin >> b;
+            qry.pb({q, a, b});
         }
-        idx.pb(0);
-        for (int i = 0; i < M; i++) {
-            if (query[i].q == 'Q')
-                continue;
-            arr[query[i].a] += query[i].b;
-            idx.pb(arr[query[i].a]);
+        for (auto& q : qry) {
+            if (q.q == 'R')
+                idx.pb(v[q.a] += q.b);
         }
-        sort(idx.begin(), idx.end());
-        idx.erase(unique(idx.begin(), idx.end()), idx.end());
-        fill(arr.begin(), arr.end(), 0);
-        int MAX = idx.size();
-        vector<ll> tree(1 << (int)ceil(log2(MAX)) + 1);
-        for (int i = 0; i < M; i++) {
-            if (query[i].q == 'R') {
-                int tar = lower_bound(idx.begin(), idx.end(), arr[query[i].a]) - idx.begin() + 1;
-                update(tree, tar, -1, 1, 1, MAX);
-                arr[query[i].a] += query[i].b;
-                tar = lower_bound(idx.begin(), idx.end(), arr[query[i].a]) - idx.begin() + 1;
-                update(tree, tar, 1, 1, 1, MAX);
+        cpr(idx)
+        fill(all(v), 0);
+        sz = idx.size();
+        tree.resize(1 << (int)ceil(log2(sz)) + 1);
+        for (auto& q : qry) {
+            if (q.q == 'Q') {
+                int pos = upper_bound(all(idx), v[q.a]) - idx.begin() + 1;
+                cout << 1 + query(pos, sz, 1, 1, sz) << endl;
             }
-            else if (query[i].q == 'Q') {
-                int tar = upper_bound(idx.begin(), idx.end(), arr[query[i].a]) - idx.begin() + 1;
-                cout << 1 + sum(tree, tar, MAX, 1, 1, MAX) << endl;
+            else {
+                int pos = lower_bound(all(idx), v[q.a]) - idx.begin() + 1;
+                update(pos, -1, 1, 1, sz);
+                v[q.a] += q.b;
+                pos = lower_bound(all(idx), v[q.a]) - idx.begin() + 1;
+                update(pos, 1, 1, 1, sz);
             }
         }
     }
