@@ -23,13 +23,13 @@ void resize() {
     vis.resize(N + 1);
 }
 
-void preprocess(int cur, int par) {
+void preprocess(int cur) {
     vis[cur] = true;
-    if (cur != 1)
-        child[par].pb(cur);
     for (auto& next : adj[cur]) {
-        if (!vis[next])
-            preprocess(next, cur);
+        if (!vis[next]) {
+            child[cur].pb(next);
+            preprocess(next);
+        }
     }
 }
 
@@ -67,6 +67,6 @@ int main() {
         adj[a].pb(b);
         adj[b].pb(a);
     }
-    preprocess(1, 0);
+    preprocess(1);
     cout << max(DFS(1, 0, 0), DFS(1, 1, 0));
 }
