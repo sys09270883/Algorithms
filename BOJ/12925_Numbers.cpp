@@ -10,9 +10,10 @@ typedef long long ll;
 #define cpr(x) sort(all(x)), (x).erase(unique(all(x)), (x).end());
 #define cprcmp(x, y) sort(all(x), (y)), (x).erase(unique(all(x)), (x).end());
 #define Matrix vector<vector<int>>
+#define Matrixll vector<vector<ll>>
 
 const int MOD = 1e3;
-const Matrix DEFAULT = {{3, 5}, {1, 3}};
+const Matrix DEFAULT = {{6, -4}, {1, 0}};
 int T, N;
 
 Matrix matMul(Matrix a, Matrix b) {
@@ -20,7 +21,7 @@ Matrix matMul(Matrix a, Matrix b) {
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 2; k++) {
-                ret[i][j] += (a[i][k] * b[k][j]) % MOD;
+                ret[i][j] += a[i][k] * b[k][j], ret[i][j] %= MOD;
             }
         }
     }
@@ -45,6 +46,6 @@ int main() {
         cin >> N;
         cout << "Case #" << i << ": ";
         Matrix res = matPow(DEFAULT, N);
-        cout << setw(3) << (res[0][0] * 2 + 999) % MOD << endl;
+        cout << setw(3) << (res[1][0] * 6 + res[1][1] * 2 + 9999) % MOD << endl;
     }
 }
