@@ -36,8 +36,6 @@ int find(int x) {
 }
 
 void merge(int x, int y) {
-    x = find(x);
-    y = find(y);
     if (x != y)
         par[x] = y;
 }
@@ -68,11 +66,12 @@ int main() {
     for (auto& e : edges) {
         if (e.dist < C)
             continue;
-        if (find(p2i[e.a]) != find(p2i[e.b])) {
-            merge(p2i[e.a], p2i[e.b]);
-            res += e.dist;
-            cnt++;
-        }
+        int fa = find(p2i[e.a]), fb = find(p2i[e.b]);
+        if (fa == fb)
+            continue;
+        merge(fa, fb);
+        res += e.dist;
+        cnt++;
     }
     if (cnt != N - 1)
         return !(cout << -1);
