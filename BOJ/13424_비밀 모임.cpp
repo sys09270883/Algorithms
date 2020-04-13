@@ -11,7 +11,7 @@ struct Node {
     int idx, dist;
     Node(int idx, int dist) : idx(idx), dist(dist) {}
     bool operator<(const Node& n) const {
-        return this->dist < n.dist;
+        return this->dist > n.dist;
     }
 };
 
