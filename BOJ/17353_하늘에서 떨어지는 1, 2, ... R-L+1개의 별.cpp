@@ -14,43 +14,53 @@ typedef pair<ll, int> pli;
 #define cpr(x) sort(all(x)), (x).erase(unique(all(x)), (x).end());
 
 int N, M, H;
-vector<int> v;
-vector<pll> tree;
+vector<ll> v, diff, tree, lazy;
 
 void resize() {
-    v.resize(N + 1);
-    tree.resize(1 << (int)ceil(log2(N)) + 1);
+    v.resize(N + 1), diff.resize(N + 1);
+    H = 1 << (int)ceil(log2(N)) + 1;
+    tree.resize(H), lazy.resize(H);
 }
 
-void init(int n, int s, int e) {
-    if (s == e) {
-        tree[n] = {v[s], 0};
-        return;
-    }
-    int m = s + e >> 1;
-    init(n << 1, s, m), init(n << 1 | 1, m + 1, e);
-}
-
-void update(int l, int r, int n, int s, int e) {
-    if (l > e || r < s)
-        return;
-    if (l <= s && e <= r) {
-        tree[n].ft += s - l + 1;
-        tree[n].sd++;
-        return;
-    }
-    int m = s + e >> 1;
-    update(l, r, n << 1, s, m), update(l, r, n << 1 | 1, m + 1, e);
-}
-
-ll query(int i, int n, int s, int e) {
-    if (i > e || i < s)
-        return 0;
+ll init(int n, int s, int e) {
     if (s == e)
-        return tree[n].ft;
+        return tree[n] = diff[s];
     int m = s + e >> 1;
-    return query(i, n << 1, s, m) + query(i, n << 1 | 1, m + 1, e) 
-                + tree[n].ft + tree[n].sd * (i - s);
+    return tree[n] = init(n << 1, s, m) + init(n << 1 | 1, m + 1, e);
+}
+
+void updateLazy(int n, int s, int e) {
+    if (lazy[n]) {
+        if (s ^ e) {
+            lazy[n << 1] += lazy[n];
+            lazy[n << 1 | 1] += lazy[n];
+        }
+        tree[n] += (e - s + 1) * lazy[n];
+        lazy[n] = 0;
+    }
+}
+
+ll update(int l, int r, int v, int n, int s, int e) {
+    updateLazy(n, s, e);
+    if (l > e || r < s)
+        return tree[n];
+    if (l <= s && e <= r) {
+        lazy[n] = v;
+        updateLazy(n, s, e);
+        return tree[n];
+    }
+    int m = s + e >> 1;
+    return tree[n] = update(l, r, v, n << 1, s, m) + update(l, r, v, n << 1 | 1, m + 1, e);
+}
+
+ll query(int l, int r, int n, int s, int e) {
+    updateLazy(n, s, e);
+    if (l > e || r < s)
+        return 0;
+    if (l <= s && e <= r)
+        return tree[n];
+    int m = s + e >> 1;
+    return query(l, r, n << 1, s, m) + query(l, r, n << 1 | 1, m + 1, e);
 }
 
 int main() {
@@ -59,6 +69,7 @@ int main() {
     resize();
     for (int i = 1; i < N + 1; i++) {
         cin >> v[i];
+        diff[i] = v[i] - v[i - 1];
     }
     init(1, 1, N);
     cin >> M;
@@ -67,9 +78,10 @@ int main() {
         cin >> q >> a;
         if (q == 1) {
             cin >> b;
-            update(a, b, 1, 1, N);
+            update(a, b, 1, 1, 1, N);
+            update(b + 1, b + 1, -(b - a + 1), 1, 1, N);
         }
         else
-            cout << query(a, 1, 1, N) << endl;
+            cout << query(1, a, 1, 1, N) << endl;
     }
 }
