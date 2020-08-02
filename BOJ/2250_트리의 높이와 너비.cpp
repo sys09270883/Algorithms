@@ -18,7 +18,7 @@ typedef pair<ll, int> pli;
 
 vector<vector<int>> adj, level;
 vector<bool> check;
-int N, max_width, max_level, o, root;
+int N, max_width, max_level, o;
 
 void inorder(int cur, int dep) {
     if (cur == -1) {
@@ -27,6 +27,17 @@ void inorder(int cur, int dep) {
     inorder(adj[cur][0], dep + 1);
     level[dep].pb(++o);
     inorder(adj[cur][1], dep + 1);
+}
+
+int root() {
+    int ret = -1;
+    for (int i = 1; i < N + 1; i++) {
+        if (!check[i]) {
+            ret = i;
+            break;
+        }
+    }
+    return ret;
 }
 
 int main() {
@@ -47,13 +58,7 @@ int main() {
         adj[a].pb(b);
         adj[a].pb(c);
     }
-    for (int i = 1; i < N + 1; i++) {
-        if (!check[i]) {
-            root = i;
-            break;
-        }
-    }
-    inorder(root, 1);
+    inorder(root(), 1);
     for (int i = 1; i < N + 1; i++) {
         if (level[i].size()) {
             int width = level[i].back() - level[i].front() + 1;
