@@ -20,10 +20,6 @@ int N;
 ll res;
 vector<int> v, tree, l, r;
 
-int nC3(int n) {
-    return n * (n - 1) * (n - 2) / 6;
-}
-
 int update(int i, int d, int n, int s, int e) {
     if (i > e || i < s) {
         return tree[n];
