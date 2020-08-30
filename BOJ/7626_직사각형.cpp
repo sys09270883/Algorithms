@@ -33,23 +33,21 @@ auto resize() {
     tree.resize(H), lazy.resize(H);
 }
 
-auto update(int l, int r, ll d, int n, int s, int e) {
+auto get(int n, int s, int e) -> ll {
+    return lazy[n] ? idx[e + 1] - idx[s] : tree[n];
+}
+
+auto update(int l, int r, ll d, int n, int s, int e) -> ll {
     if (l > e || r < s) {
-        return;
+        return get(n, s, e);
     }
     if (l <= s && e <= r) {
         lazy[n] += d;
+        return get(n, s, e);
     }
-    else {
-        int m = s + e >> 1;
-        update(l, r, d, n << 1, s, m);
-        update(l, r, d, n << 1 | 1, m + 1, e);
-    }
-    if (lazy[n]) {
-        tree[n] = idx[e + 1] - idx[s];
-    } else {
-        tree[n] = s == e ? 0 : tree[n << 1] + tree[n << 1 | 1];
-    }
+    int m = s + e >> 1;
+    tree[n] = update(l, r, d, n << 1, s, m) + update(l, r, d, n << 1 | 1, m + 1, e);
+    return get(n, s, e);
 }
 
 auto main() -> int {
