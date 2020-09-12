@@ -31,18 +31,18 @@ int init(int n, int s, int e) {
     return tree[n] = get(init(n << 1, s, m), init(n << 1 | 1, m + 1, e));
 }
 
-int kth(int l, int r, int n, int s, int e) {
+int min(int l, int r, int n, int s, int e) {
     if (l > e || r < s)
         return 0;
     if (l <= s && e <= r)
         return tree[n];
     int m = s + e >> 1;
-    return get(kth(l, r, n << 1, s, m), kth(l, r, n << 1 | 1, m + 1, e));
+    return get(min(l, r, n << 1, s, m), min(l, r, n << 1 | 1, m + 1, e));
 }
 
 ll func(int l, int r) {
-    int k = kth(l, r, 1, 1, N);
-    ll ret = (ll)v[k] * (sum[r] - sum[l - 1]);
+    int k = min(l, r, 1, 1, N);
+    ll ret = v[k] * (sum[r] - sum[l - 1]);
     if (l < k)
         ret = max(ret, func(l, k - 1));
     if (k < r)
