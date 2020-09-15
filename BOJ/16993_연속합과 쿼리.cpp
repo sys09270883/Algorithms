@@ -29,8 +29,8 @@ vector<Node> tree;
 
 Node merge(const Node &n1, const Node &n2) {
     Node ret;
-    ret.ls = max(n1.ls, n1.sum + n2.ls);
-    ret.rs = max(n2.rs, n2.sum + n1.rs);
+    ret.ls = max({n1.ls, n1.sum, n1.sum + n2.ls});
+    ret.rs = max({n2.rs, n2.sum, n2.sum + n1.rs});
     ret.sum = n1.sum + n2.sum;
     ret.maxs = max({n1.maxs, n2.maxs, n1.rs + n2.ls});
     return ret;
