@@ -20,7 +20,6 @@ class Solution {
     
     fun dijkstra() {
         val pq = PriorityQueue<Pair<Int, Int>> { p1, p2 -> p1.second - p2.second }
-        dists[1] = 0
         pq.add(Pair(1, dists[1]))
         while (pq.isNotEmpty()) {
             val (cur, cd) = pq.poll()
