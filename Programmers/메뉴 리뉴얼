@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+map<string, int> mp;
+
+void dfs(string &s, string ss, int idx) {
+    if (idx == s.size()) {
+        return;
+    }
+    string sss = ss + s[idx];
+    mp[sss] += 1;
+    dfs(s, ss, idx + 1);
+    dfs(s, sss, idx + 1);
+}
+
+vector<string> solution(vector<string> orders, vector<int> course) {
+    vector<string> answer;
+    
+    for (auto o : orders) {
+        sort(o.begin(), o.end());
+        dfs(o, "", 0);
+    }
+    
+    for (auto c : course) {
+        int maxv = -1;
+        
+        for (auto psi : mp) {
+            if (c == psi.first.size()) {
+                maxv = max(maxv, psi.second);
+            }
+        }
+        
+        if (maxv < 2) {
+            continue;
+        }
+        
+        for (auto psi : mp) {
+            if (c == psi.first.size()) {
+                if (maxv == psi.second) {
+                    answer.push_back(psi.first);
+                }
+            }
+        }
+    }
+    
+    sort(answer.begin(), answer.end());
+    return answer;
+}
