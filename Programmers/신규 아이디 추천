@@ -1,0 +1,105 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+string one(string s) {
+    string ret = "";
+    int diff = 'a' - 'A';
+    for (auto& c : s) {
+        if ('A' <= c && c <= 'Z') {
+            c += diff;
+        }
+        ret += c;
+    }
+    return ret;
+}
+
+string two(string s) {
+    string ret = "";
+    for (auto c : s) {
+        if ('a' <= c && c <= 'z') {
+            ret += c;
+        }
+        if ('0' <= c && c <= '9') {
+            ret += c;
+        }
+        if (c == '-' || c == '_' || c == '.') {
+            ret += c;
+        }
+    }
+    return ret;
+}
+
+string three(string s) {
+    string ret = "";
+    bool prev = false;
+    
+    for (auto c : s) {
+        if (prev && c == '.') {
+            continue;
+        }
+        
+        if (c == '.') {
+            prev = true;
+        } else {
+            prev = false;
+        }
+        
+        ret += c;
+    }
+    return ret;
+}
+
+string four(string s) {
+    string ret = "";
+    for (int i = 0; i < s.size(); i++) {
+        if (i == 0 && s[i] == '.') {
+            continue;
+        }
+        if (i == s.size() - 1 && s[i] == '.') {
+            continue;
+        }
+        ret += s[i];
+    }
+    return ret;
+}
+
+string five(string s) {
+    string ret = s;
+    if (s.empty()) {
+        ret = 'a';
+    }
+    return ret;
+}
+
+string six(string s) {
+    string ret = s;
+    if (s.size() >= 16) {
+        ret = s.substr(0, 15);
+        if (ret.back() == '.') {
+            ret = s.substr(0, ret.size() - 1);
+        }
+    }
+    return ret;
+}
+
+string seven(string s) {
+    string ret = s;
+    if (ret.size() <= 2) {
+        auto c = ret.back();
+        while (ret.size() < 3) {
+            ret += c;
+        }
+    }
+    return ret;
+}
+
+string solution(string new_id) {
+    string s = one(new_id);
+    s = two(s);
+    s = three(s);
+    s = four(s);
+    s = five(s);
+    s = six(s);
+    s = seven(s);
+    return s;
+}
